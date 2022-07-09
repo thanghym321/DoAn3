@@ -1,0 +1,160 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="DoAn3Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="CTDonHang">
+    <Key>
+      <PropertyRef Name="MaCT" />
+    </Key>
+    <Property Name="MaCT" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="MaDH" Type="varchar" MaxLength="50" />
+    <Property Name="MaLK" Type="int" />
+    <Property Name="SoLuong" Type="int" />
+  </EntityType>
+  <EntityType Name="DonHang">
+    <Key>
+      <PropertyRef Name="MaDH" />
+    </Key>
+    <Property Name="MaDH" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="HoTen" Type="ntext" />
+    <Property Name="DiaChi" Type="ntext" />
+    <Property Name="Email" Type="ntext" />
+    <Property Name="SoDienThoai" Type="ntext" />
+    <Property Name="GhiChu" Type="ntext" />
+  </EntityType>
+  <EntityType Name="LinhKien">
+    <Key>
+      <PropertyRef Name="MaLK" />
+    </Key>
+    <Property Name="MaLK" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="TenLK" Type="ntext" />
+    <Property Name="MaLoaiLK" Type="int" Nullable="false" />
+    <Property Name="BaoHanh" Type="int" />
+    <Property Name="Anh" Type="ntext" />
+    <Property Name="Gia" Type="int" Nullable="false" />
+    <Property Name="AnhPhu" Type="ntext" />
+    <Property Name="MoTa" Type="ntext" />
+    <Property Name="Xem" Type="int" />
+    <Property Name="IsDeleted" Type="bit" />
+  </EntityType>
+  <EntityType Name="LoaiLinhKien">
+    <Key>
+      <PropertyRef Name="MaLoaiLK" />
+    </Key>
+    <Property Name="MaLoaiLK" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="MaLoaiLKCha" Type="int" />
+    <Property Name="TenLoaiLK" Type="ntext" />
+    <Property Name="Anh" Type="ntext" />
+    <Property Name="MaMenu" Type="text" />
+    <Property Name="IsDeleted" Type="bit" />
+  </EntityType>
+  <EntityType Name="LoaiTinTuc">
+    <Key>
+      <PropertyRef Name="MaLoaiTT" />
+    </Key>
+    <Property Name="MaLoaiTT" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="TenLoaiTT" Type="ntext" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
+  <EntityType Name="TinTuc">
+    <Key>
+      <PropertyRef Name="MaTT" />
+    </Key>
+    <Property Name="MaTT" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="TieuDe" Type="ntext" />
+    <Property Name="NgayDang" Type="date" Nullable="false" />
+    <Property Name="Anh" Type="ntext" />
+    <Property Name="MaLoaiTT" Type="int" Nullable="false" />
+    <Property Name="NoiDung" Type="ntext" />
+  </EntityType>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="MaNguoiDung" />
+    </Key>
+    <Property Name="MaNguoiDung" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="TaiKhoan" Type="varchar" MaxLength="50" />
+    <Property Name="MatKhau" Type="varchar" MaxLength="100" />
+    <Property Name="HoTen" Type="nvarchar" MaxLength="150" />
+  </EntityType>
+  <Association Name="FK_CTDonHang_DonHang">
+    <End Role="DonHang" Type="Self.DonHang" Multiplicity="0..1" />
+    <End Role="CTDonHang" Type="Self.CTDonHang" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="DonHang">
+        <PropertyRef Name="MaDH" />
+      </Principal>
+      <Dependent Role="CTDonHang">
+        <PropertyRef Name="MaDH" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CTDonHang_LinhKien">
+    <End Role="LinhKien" Type="Self.LinhKien" Multiplicity="0..1" />
+    <End Role="CTDonHang" Type="Self.CTDonHang" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="LinhKien">
+        <PropertyRef Name="MaLK" />
+      </Principal>
+      <Dependent Role="CTDonHang">
+        <PropertyRef Name="MaLK" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_LinhKien_LoaiLinhKien">
+    <End Role="LoaiLinhKien" Type="Self.LoaiLinhKien" Multiplicity="1" />
+    <End Role="LinhKien" Type="Self.LinhKien" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="LoaiLinhKien">
+        <PropertyRef Name="MaLoaiLK" />
+      </Principal>
+      <Dependent Role="LinhKien">
+        <PropertyRef Name="MaLoaiLK" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TinTuc_LoaiTinTuc1">
+    <End Role="LoaiTinTuc" Type="Self.LoaiTinTuc" Multiplicity="1" />
+    <End Role="TinTuc" Type="Self.TinTuc" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="LoaiTinTuc">
+        <PropertyRef Name="MaLoaiTT" />
+      </Principal>
+      <Dependent Role="TinTuc">
+        <PropertyRef Name="MaLoaiTT" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="DoAn3ModelStoreContainer">
+    <EntitySet Name="CTDonHang" EntityType="Self.CTDonHang" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="DonHang" EntityType="Self.DonHang" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="LinhKien" EntityType="Self.LinhKien" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="LoaiLinhKien" EntityType="Self.LoaiLinhKien" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="LoaiTinTuc" EntityType="Self.LoaiTinTuc" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TinTuc" EntityType="Self.TinTuc" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_CTDonHang_DonHang" Association="Self.FK_CTDonHang_DonHang">
+      <End Role="DonHang" EntitySet="DonHang" />
+      <End Role="CTDonHang" EntitySet="CTDonHang" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CTDonHang_LinhKien" Association="Self.FK_CTDonHang_LinhKien">
+      <End Role="LinhKien" EntitySet="LinhKien" />
+      <End Role="CTDonHang" EntitySet="CTDonHang" />
+    </AssociationSet>
+    <AssociationSet Name="FK_LinhKien_LoaiLinhKien" Association="Self.FK_LinhKien_LoaiLinhKien">
+      <End Role="LoaiLinhKien" EntitySet="LoaiLinhKien" />
+      <End Role="LinhKien" EntitySet="LinhKien" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TinTuc_LoaiTinTuc1" Association="Self.FK_TinTuc_LoaiTinTuc1">
+      <End Role="LoaiTinTuc" EntitySet="LoaiTinTuc" />
+      <End Role="TinTuc" EntitySet="TinTuc" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

@@ -1,0 +1,107 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<title>AnhThawngs - Quản lý loại linh kiện</title>
+
+@Html.Hidden("MaLoaiLK_")
+<div ng-controller="AdminLSPController" ng-init="GetAllData('')">
+    <button style="height:40px; margin: 25px 0; cursor:pointer;" class="btn btn-primary btn-btn-lg m-r-5" data-toggle="modal" data-target="#exampleModal">
+        Thêm loại linh kiện
+    </button>
+    <div class="ibox">
+        <div class="ibox-head">
+            <div class="ibox-title">Bảng loại linh kiện</div>
+            <div style="width:500px">
+                <div class="input-group">
+                    <input class="form-control" type="text" placeholder="Nhập từ khóa cần tìm" id="txtSearch">
+                    <div class="input-group-btn">
+                        <button style="cursor:pointer;" class="btn btn-success" ng-click="GetAllData(document.getElementById('txtSearch').value.toString())">Tìm kiếm</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="ibox-body">
+            <div class="table-responsive">
+                <table class="table table-hover table-bordered ">
+                    <thead class="thead-default">
+                        <tr>
+                            <th>Mã loại</th>
+                            <th>Mã loại cha</th>
+                            <th>Tên loại</th>
+                            <th>Ảnh</th>
+                            <th>Mã menu</th>
+                            <th width="100px"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="item in listLoaiLK">
+                            <td>{{item.MaLoaiLK}}</td>
+                            <td>{{item.MaLoaiLKCha}}</td>
+                            <td>{{item.TenLoaiLK}}</td>
+                            <td><img src="{{item.Anh}}" height="50px" width="50px"/></td>
+                            <td>{{item.MaMenu}}</td>
+                            <td>
+                                <button style="cursor:pointer;" ng-click="UpdateData(item)" class="btn btn-warning btn-btn-lg m-r-5" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-pencil font-14"></i></button>
+                                <button style="cursor:pointer;" ng-click="DeleteData(item)" class="btn btn-danger btn-btn-lg"><i class="fa fa-trash font-14"></i></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document" style="max-width:600px">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 style="margin: 0;"><b>Thêm loại linh kiện</b></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-horizontal" role="form">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-12 col-lg-12 col-sm-12">
+                                    <div class="form-group row">
+                                        <label class="col-md-3 col-lg-3 control-label">Mã loại cha</label>
+                                        <div class="col-md-9 col-lg-9">
+                                            <input type="text" class="form-control" placeholder="Nhập mã loại cha" ng-model="MaLoaiLKCha_" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-md-3 col-lg-3 control-label">Tên loại</label>
+                                        <div class="col-md-9 col-lg-9">
+                                            <input type="text" class="form-control" placeholder="Nhập tên loại linh kiện" ng-model="TenLoaiLK_" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-md-3 col-lg-3 control-label">Ảnh</label>
+                                        <div class="col-md-9 col-lg-9">
+                                            <input type="text" class="form-control" placeholder="Nhập đường dẫn ảnh" ng-model="Anh_" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-md-3 col-lg-3 control-label">Mã menu</label>
+                                        <div class="col-md-9 col-lg-9">
+                                            <input type="text" class="form-control" placeholder="Nhập mã menu" ng-model="MaMenu_" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                    <input type="button" id="btnLuu" class="btn btn-primary" value="Thêm" ng-click="InsertData()" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

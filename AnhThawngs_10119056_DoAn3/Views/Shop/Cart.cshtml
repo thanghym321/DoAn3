@@ -1,0 +1,151 @@
+﻿
+@{
+    ViewBag.Title = "Cart";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<title>AnhThawngs | Giỏ hàng</title>
+<script src="~/Scripts/angularScript/cart.js"></script>
+<div ng-controller="ShopCtrl">
+    <!-- Hero Section Begin -->
+    <section class="hero hero-normal">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="hero__categories" ng-controller="HomeCtrl">
+                        <div ng-init="LoadLoaiLK()"></div>
+                        <div class="hero__categories__all">
+                            <i class="fa fa-bars"></i>
+                            <span>Tất cả danh mục</span>
+                        </div>
+                        <ul>
+                            <li ng-repeat="item in listLoaiLK | LoaiLKCha | limitTo :12 :0">
+                                <a href="/SanPham/DanhSach/?MaLoai={{item.MaLoai}}">{{item.TenLoai }}</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-9">
+                    <div class="hero__search">
+                        <div class="hero__search__form">
+                            <form action="#">
+                                <div class="hero__search__categories">
+                                    Tất cả danh mục
+                                    <span class="arrow_carrot-down"></span>
+                                </div>
+                                <input type="text" placeholder="Nhập sản phẩm cần tìm...">
+                                <button type="submit" class="site-btn">Tìm kiếm</button>
+                            </form>
+                        </div>
+                        <div class="hero__search__phone">
+                            <div class="hero__search__phone__icon">
+                                <i class="fa fa-phone"></i>
+                            </div>
+                            <div class="hero__search__phone__text">
+                                <h5>0379114366</h5>
+                                <span>Hỗ trợ 24/7</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Hero Section End -->
+    <!-- Breadcrumb Section Begin -->
+    <section class="breadcrumb-section set-bg" data-setbg="/Assets/img/bia.jpg">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <div class="breadcrumb__text">
+                        <h2>Giỏ hàng</h2>
+                        <div class="breadcrumb__option">
+                            <a href="/Home/Index">Home</a>
+                            <span>Giỏ hàng</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Breadcrumb Section End -->
+    <!-- Shoping Cart Section Begin -->
+    <section class="shoping-cart spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="shoping__cart__table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th class="shoping__product">Sản phẩm</th>
+                                    <th>Giá</th>
+                                    <th>Số lượng</th>
+                                    <th>Tổng</th>
+                                    <th>Xóa</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="item in listSPGH">
+                                    <td class="shoping__cart__item">
+                                        <div style="width: 150px; float:left; margin-right: 25px;">
+                                            <img src="{{item.Anh}}" alt="">
+                                        </div>
+                                        <div style="width: 422px; float:left; margin-top: 62px;">
+                                            <h5>{{item.Ten}}</h5>
+                                        </div>
+                                    </td>
+                                    <td class="shoping__cart__price">
+                                        {{item.Gia | currency : 'VND' : 0}}
+                                    </td>
+                                    <td class="shoping__cart__quantity">
+                                        <button ng-click="Giam(item)">-</button>
+                                        <span>{{item.quantity}}</span>
+                                        <button ng-click="Tang(item)">+</button>
+                                    </td>
+                                    <td class="shoping__cart__total">
+                                        {{item.quantity * item.Gia | currency : 'VND' : 0}}
+                                    </td>
+                                    <td class="shoping__cart__item__close xoa">
+                                        <span class="fa fa-trash-o" ng-click="Xoa(item)"></span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="shoping__cart__btns">
+                        <a href="/Home/Index" class="primary-btn cart-btn">Tiếp tục mua sắm</a>
+                        <a href="" class="primary-btn cart-btn cart-btn-right" ng-click="XoaCart()">
+                            Xóa giỏ hàng
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="shoping__continue">
+                        <div class="shoping__discount">
+                            <h5>Mã giảm giá</h5>
+                            <form action="#">
+                                <input type="text" placeholder="Nhập mã giảm giá của bạn">
+                                <button type="submit" class="site-btn">Áp dụng</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="shoping__checkout">
+                        <h5>Tổng giỏ hàng</h5>
+                        <ul>
+                            <li>Tổng <span>{{total | currency : 'VND' : 0}}</span></li>
+                        </ul>
+                        <a href="/Shop/CheckOut" class="primary-btn">TIẾN HÀNH THANH TOÁN</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Shoping Cart Section End -->
+</div>

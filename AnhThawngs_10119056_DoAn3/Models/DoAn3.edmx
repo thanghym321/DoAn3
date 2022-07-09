@@ -1,0 +1,455 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="DoAn3Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="CTDonHang">
+          <Key>
+            <PropertyRef Name="MaCT" />
+          </Key>
+          <Property Name="MaCT" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MaDH" Type="varchar" MaxLength="50" />
+          <Property Name="MaLK" Type="int" />
+          <Property Name="SoLuong" Type="int" />
+        </EntityType>
+        <EntityType Name="DonHang">
+          <Key>
+            <PropertyRef Name="MaDH" />
+          </Key>
+          <Property Name="MaDH" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="HoTen" Type="ntext" />
+          <Property Name="DiaChi" Type="ntext" />
+          <Property Name="Email" Type="ntext" />
+          <Property Name="SoDienThoai" Type="ntext" />
+          <Property Name="GhiChu" Type="ntext" />
+        </EntityType>
+        <EntityType Name="LinhKien">
+          <Key>
+            <PropertyRef Name="MaLK" />
+          </Key>
+          <Property Name="MaLK" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TenLK" Type="ntext" />
+          <Property Name="MaLoaiLK" Type="int" Nullable="false" />
+          <Property Name="BaoHanh" Type="int" />
+          <Property Name="Anh" Type="ntext" />
+          <Property Name="Gia" Type="int" Nullable="false" />
+          <Property Name="AnhPhu" Type="ntext" />
+          <Property Name="MoTa" Type="ntext" />
+          <Property Name="Xem" Type="int" />
+          <Property Name="IsDeleted" Type="bit" />
+        </EntityType>
+        <EntityType Name="LoaiLinhKien">
+          <Key>
+            <PropertyRef Name="MaLoaiLK" />
+          </Key>
+          <Property Name="MaLoaiLK" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MaLoaiLKCha" Type="int" />
+          <Property Name="TenLoaiLK" Type="ntext" />
+          <Property Name="Anh" Type="ntext" />
+          <Property Name="MaMenu" Type="text" />
+          <Property Name="IsDeleted" Type="bit" />
+        </EntityType>
+        <EntityType Name="LoaiTinTuc">
+          <Key>
+            <PropertyRef Name="MaLoaiTT" />
+          </Key>
+          <Property Name="MaLoaiTT" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TenLoaiTT" Type="ntext" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="TinTuc">
+          <Key>
+            <PropertyRef Name="MaTT" />
+          </Key>
+          <Property Name="MaTT" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TieuDe" Type="ntext" />
+          <Property Name="NgayDang" Type="date" Nullable="false" />
+          <Property Name="Anh" Type="ntext" />
+          <Property Name="MaLoaiTT" Type="int" Nullable="false" />
+          <Property Name="NoiDung" Type="ntext" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="MaNguoiDung" />
+          </Key>
+          <Property Name="MaNguoiDung" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TaiKhoan" Type="varchar" MaxLength="50" />
+          <Property Name="MatKhau" Type="varchar" MaxLength="100" />
+          <Property Name="HoTen" Type="nvarchar" MaxLength="150" />
+        </EntityType>
+        <Association Name="FK_CTDonHang_DonHang">
+          <End Role="DonHang" Type="Self.DonHang" Multiplicity="0..1" />
+          <End Role="CTDonHang" Type="Self.CTDonHang" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DonHang">
+              <PropertyRef Name="MaDH" />
+            </Principal>
+            <Dependent Role="CTDonHang">
+              <PropertyRef Name="MaDH" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CTDonHang_LinhKien">
+          <End Role="LinhKien" Type="Self.LinhKien" Multiplicity="0..1" />
+          <End Role="CTDonHang" Type="Self.CTDonHang" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LinhKien">
+              <PropertyRef Name="MaLK" />
+            </Principal>
+            <Dependent Role="CTDonHang">
+              <PropertyRef Name="MaLK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LinhKien_LoaiLinhKien">
+          <End Role="LoaiLinhKien" Type="Self.LoaiLinhKien" Multiplicity="1" />
+          <End Role="LinhKien" Type="Self.LinhKien" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LoaiLinhKien">
+              <PropertyRef Name="MaLoaiLK" />
+            </Principal>
+            <Dependent Role="LinhKien">
+              <PropertyRef Name="MaLoaiLK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TinTuc_LoaiTinTuc1">
+          <End Role="LoaiTinTuc" Type="Self.LoaiTinTuc" Multiplicity="1" />
+          <End Role="TinTuc" Type="Self.TinTuc" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LoaiTinTuc">
+              <PropertyRef Name="MaLoaiTT" />
+            </Principal>
+            <Dependent Role="TinTuc">
+              <PropertyRef Name="MaLoaiTT" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DoAn3ModelStoreContainer">
+          <EntitySet Name="CTDonHang" EntityType="Self.CTDonHang" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DonHang" EntityType="Self.DonHang" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LinhKien" EntityType="Self.LinhKien" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LoaiLinhKien" EntityType="Self.LoaiLinhKien" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LoaiTinTuc" EntityType="Self.LoaiTinTuc" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TinTuc" EntityType="Self.TinTuc" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_CTDonHang_DonHang" Association="Self.FK_CTDonHang_DonHang">
+            <End Role="DonHang" EntitySet="DonHang" />
+            <End Role="CTDonHang" EntitySet="CTDonHang" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CTDonHang_LinhKien" Association="Self.FK_CTDonHang_LinhKien">
+            <End Role="LinhKien" EntitySet="LinhKien" />
+            <End Role="CTDonHang" EntitySet="CTDonHang" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LinhKien_LoaiLinhKien" Association="Self.FK_LinhKien_LoaiLinhKien">
+            <End Role="LoaiLinhKien" EntitySet="LoaiLinhKien" />
+            <End Role="LinhKien" EntitySet="LinhKien" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TinTuc_LoaiTinTuc1" Association="Self.FK_TinTuc_LoaiTinTuc1">
+            <End Role="LoaiTinTuc" EntitySet="LoaiTinTuc" />
+            <End Role="TinTuc" EntitySet="TinTuc" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DoAn3Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="CTDonHang">
+          <Key>
+            <PropertyRef Name="MaCT" />
+          </Key>
+          <Property Name="MaCT" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MaDH" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="MaLK" Type="Int32" />
+          <Property Name="SoLuong" Type="Int32" />
+          <NavigationProperty Name="DonHang" Relationship="Self.FK_CTDonHang_DonHang" FromRole="CTDonHang" ToRole="DonHang" />
+          <NavigationProperty Name="LinhKien" Relationship="Self.FK_CTDonHang_LinhKien" FromRole="CTDonHang" ToRole="LinhKien" />
+        </EntityType>
+        <EntityType Name="DonHang">
+          <Key>
+            <PropertyRef Name="MaDH" />
+          </Key>
+          <Property Name="MaDH" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="HoTen" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="DiaChi" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SoDienThoai" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="GhiChu" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="CTDonHang" Relationship="Self.FK_CTDonHang_DonHang" FromRole="DonHang" ToRole="CTDonHang" />
+        </EntityType>
+        <EntityType Name="LinhKien">
+          <Key>
+            <PropertyRef Name="MaLK" />
+          </Key>
+          <Property Name="MaLK" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TenLK" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="MaLoaiLK" Type="Int32" Nullable="false" />
+          <Property Name="BaoHanh" Type="Int32" />
+          <Property Name="Anh" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Gia" Type="Int32" Nullable="false" />
+          <Property Name="AnhPhu" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="MoTa" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Xem" Type="Int32" />
+          <Property Name="IsDeleted" Type="Boolean" />
+          <NavigationProperty Name="CTDonHang" Relationship="Self.FK_CTDonHang_LinhKien" FromRole="LinhKien" ToRole="CTDonHang" />
+          <NavigationProperty Name="LoaiLinhKien" Relationship="Self.FK_LinhKien_LoaiLinhKien" FromRole="LinhKien" ToRole="LoaiLinhKien" />
+        </EntityType>
+        <EntityType Name="LoaiLinhKien">
+          <Key>
+            <PropertyRef Name="MaLoaiLK" />
+          </Key>
+          <Property Name="MaLoaiLK" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MaLoaiLKCha" Type="Int32" />
+          <Property Name="TenLoaiLK" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Anh" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="MaMenu" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="IsDeleted" Type="Boolean" />
+          <NavigationProperty Name="LinhKien" Relationship="Self.FK_LinhKien_LoaiLinhKien" FromRole="LoaiLinhKien" ToRole="LinhKien" />
+        </EntityType>
+        <EntityType Name="LoaiTinTuc">
+          <Key>
+            <PropertyRef Name="MaLoaiTT" />
+          </Key>
+          <Property Name="MaLoaiTT" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TenLoaiTT" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="TinTuc" Relationship="Self.FK_TinTuc_LoaiTinTuc1" FromRole="LoaiTinTuc" ToRole="TinTuc" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="TinTuc">
+          <Key>
+            <PropertyRef Name="MaTT" />
+          </Key>
+          <Property Name="MaTT" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TieuDe" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="NgayDang" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Anh" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="MaLoaiTT" Type="Int32" Nullable="false" />
+          <Property Name="NoiDung" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="LoaiTinTuc" Relationship="Self.FK_TinTuc_LoaiTinTuc1" FromRole="TinTuc" ToRole="LoaiTinTuc" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="MaNguoiDung" />
+          </Key>
+          <Property Name="MaNguoiDung" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TaiKhoan" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="MatKhau" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="HoTen" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <Association Name="FK_CTDonHang_DonHang">
+          <End Role="DonHang" Type="Self.DonHang" Multiplicity="0..1" />
+          <End Role="CTDonHang" Type="Self.CTDonHang" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DonHang">
+              <PropertyRef Name="MaDH" />
+            </Principal>
+            <Dependent Role="CTDonHang">
+              <PropertyRef Name="MaDH" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CTDonHang_LinhKien">
+          <End Role="LinhKien" Type="Self.LinhKien" Multiplicity="0..1" />
+          <End Role="CTDonHang" Type="Self.CTDonHang" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LinhKien">
+              <PropertyRef Name="MaLK" />
+            </Principal>
+            <Dependent Role="CTDonHang">
+              <PropertyRef Name="MaLK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LinhKien_LoaiLinhKien">
+          <End Role="LoaiLinhKien" Type="Self.LoaiLinhKien" Multiplicity="1" />
+          <End Role="LinhKien" Type="Self.LinhKien" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LoaiLinhKien">
+              <PropertyRef Name="MaLoaiLK" />
+            </Principal>
+            <Dependent Role="LinhKien">
+              <PropertyRef Name="MaLoaiLK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TinTuc_LoaiTinTuc1">
+          <End Role="LoaiTinTuc" Type="Self.LoaiTinTuc" Multiplicity="1" />
+          <End Role="TinTuc" Type="Self.TinTuc" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LoaiTinTuc">
+              <PropertyRef Name="MaLoaiTT" />
+            </Principal>
+            <Dependent Role="TinTuc">
+              <PropertyRef Name="MaLoaiTT" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DoAn3Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="CTDonHang" EntityType="Self.CTDonHang" />
+          <EntitySet Name="DonHang" EntityType="Self.DonHang" />
+          <EntitySet Name="LinhKien" EntityType="Self.LinhKien" />
+          <EntitySet Name="LoaiLinhKien" EntityType="Self.LoaiLinhKien" />
+          <EntitySet Name="LoaiTinTuc" EntityType="Self.LoaiTinTuc" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+          <EntitySet Name="TinTuc" EntityType="Self.TinTuc" />
+          <EntitySet Name="User" EntityType="Self.User" />
+          <AssociationSet Name="FK_CTDonHang_DonHang" Association="Self.FK_CTDonHang_DonHang">
+            <End Role="DonHang" EntitySet="DonHang" />
+            <End Role="CTDonHang" EntitySet="CTDonHang" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CTDonHang_LinhKien" Association="Self.FK_CTDonHang_LinhKien">
+            <End Role="LinhKien" EntitySet="LinhKien" />
+            <End Role="CTDonHang" EntitySet="CTDonHang" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LinhKien_LoaiLinhKien" Association="Self.FK_LinhKien_LoaiLinhKien">
+            <End Role="LoaiLinhKien" EntitySet="LoaiLinhKien" />
+            <End Role="LinhKien" EntitySet="LinhKien" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TinTuc_LoaiTinTuc1" Association="Self.FK_TinTuc_LoaiTinTuc1">
+            <End Role="LoaiTinTuc" EntitySet="LoaiTinTuc" />
+            <End Role="TinTuc" EntitySet="TinTuc" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DoAn3ModelStoreContainer" CdmEntityContainer="DoAn3Entities">
+          <EntitySetMapping Name="CTDonHang">
+            <EntityTypeMapping TypeName="DoAn3Model.CTDonHang">
+              <MappingFragment StoreEntitySet="CTDonHang">
+                <ScalarProperty Name="MaCT" ColumnName="MaCT" />
+                <ScalarProperty Name="MaDH" ColumnName="MaDH" />
+                <ScalarProperty Name="MaLK" ColumnName="MaLK" />
+                <ScalarProperty Name="SoLuong" ColumnName="SoLuong" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DonHang">
+            <EntityTypeMapping TypeName="DoAn3Model.DonHang">
+              <MappingFragment StoreEntitySet="DonHang">
+                <ScalarProperty Name="MaDH" ColumnName="MaDH" />
+                <ScalarProperty Name="HoTen" ColumnName="HoTen" />
+                <ScalarProperty Name="DiaChi" ColumnName="DiaChi" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="SoDienThoai" ColumnName="SoDienThoai" />
+                <ScalarProperty Name="GhiChu" ColumnName="GhiChu" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LinhKien">
+            <EntityTypeMapping TypeName="DoAn3Model.LinhKien">
+              <MappingFragment StoreEntitySet="LinhKien">
+                <ScalarProperty Name="MaLK" ColumnName="MaLK" />
+                <ScalarProperty Name="TenLK" ColumnName="TenLK" />
+                <ScalarProperty Name="MaLoaiLK" ColumnName="MaLoaiLK" />
+                <ScalarProperty Name="BaoHanh" ColumnName="BaoHanh" />
+                <ScalarProperty Name="Anh" ColumnName="Anh" />
+                <ScalarProperty Name="Gia" ColumnName="Gia" />
+                <ScalarProperty Name="AnhPhu" ColumnName="AnhPhu" />
+                <ScalarProperty Name="MoTa" ColumnName="MoTa" />
+                <ScalarProperty Name="Xem" ColumnName="Xem" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LoaiLinhKien">
+            <EntityTypeMapping TypeName="DoAn3Model.LoaiLinhKien">
+              <MappingFragment StoreEntitySet="LoaiLinhKien">
+                <ScalarProperty Name="MaLoaiLK" ColumnName="MaLoaiLK" />
+                <ScalarProperty Name="MaLoaiLKCha" ColumnName="MaLoaiLKCha" />
+                <ScalarProperty Name="TenLoaiLK" ColumnName="TenLoaiLK" />
+                <ScalarProperty Name="Anh" ColumnName="Anh" />
+                <ScalarProperty Name="MaMenu" ColumnName="MaMenu" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LoaiTinTuc">
+            <EntityTypeMapping TypeName="DoAn3Model.LoaiTinTuc">
+              <MappingFragment StoreEntitySet="LoaiTinTuc">
+                <ScalarProperty Name="MaLoaiTT" ColumnName="MaLoaiTT" />
+                <ScalarProperty Name="TenLoaiTT" ColumnName="TenLoaiTT" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="DoAn3Model.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TinTuc">
+            <EntityTypeMapping TypeName="DoAn3Model.TinTuc">
+              <MappingFragment StoreEntitySet="TinTuc">
+                <ScalarProperty Name="MaTT" ColumnName="MaTT" />
+                <ScalarProperty Name="TieuDe" ColumnName="TieuDe" />
+                <ScalarProperty Name="NgayDang" ColumnName="NgayDang" />
+                <ScalarProperty Name="Anh" ColumnName="Anh" />
+                <ScalarProperty Name="MaLoaiTT" ColumnName="MaLoaiTT" />
+                <ScalarProperty Name="NoiDung" ColumnName="NoiDung" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="User">
+            <EntityTypeMapping TypeName="DoAn3Model.User">
+              <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="MaNguoiDung" ColumnName="MaNguoiDung" />
+                <ScalarProperty Name="TaiKhoan" ColumnName="TaiKhoan" />
+                <ScalarProperty Name="MatKhau" ColumnName="MatKhau" />
+                <ScalarProperty Name="HoTen" ColumnName="HoTen" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
